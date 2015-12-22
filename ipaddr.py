@@ -440,6 +440,12 @@ class _IPAddrBase(object):
         """Return the shorthand version of the IP address as a string."""
         return str(self)
 
+    def __getstate__(self):
+        return self.compressed
+
+    def __setstate__(self, state):
+        self.__init__(state)
+
 
 class _BaseIP(_IPAddrBase):
 
@@ -1285,6 +1291,9 @@ class IPv4Address(_BaseV4, _BaseIP):
         addr_str = str(address)
         self._ip = self._ip_int_from_string(addr_str)
 
+    def __getstate__(self):
+        return self._ip
+
 
 class IPv4Network(_BaseV4, _BaseNet):
 
@@ -1816,6 +1825,9 @@ class IPv6Address(_BaseV6, _BaseIP):
         # which converts into a formatted IP string.
         addr_str = str(address)
         self._ip = self._ip_int_from_string(addr_str)
+
+    def __getstate__(self):
+        return self._ip
 
 
 class IPv6Network(_BaseV6, _BaseNet):
